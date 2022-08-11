@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <title>弹出消息框</title>
+    </head>
+    
+    <body>
+        <script type="text/javascript">
+            function del() {
+                var ok = window.confirm("确认删除数据么?");
+                if(ok){
+                    alert("数据删除成功!")
+                }else {
+                    alert("数据没有删除!")
+                }
+            }
+        </script>
+        <input type="button" value="弹出消息框" onclick="window.alert('我是一个消息框!')"/>
+        <input type="button" value="弹出确认(删除)框" onclick="del()"/>
+    </body>
+</html>
