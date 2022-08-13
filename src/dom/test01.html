@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <title>表单验证</title>
+        <style type="text/css">
+            span{
+                color: red;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript">
+            /*
+                1.用户名不能为空，且必须在6在14之间
+                2.用户名只能有数组和字母组成，不能含有其他符号
+                3.密码需要和确认密码一致，邮箱地址合法
+                4.统一失去焦点验证
+                5.错误提示信息统一在span标签中，并且要求字体12号，红色
+                6.文本框再次获得焦点后，清空错误提示信息，文本框数据不合法要求清空文本框的value
+                7.最终表单中所有项合法方可提交
+             */
+            window.onload=function (){
+                //给id为username的文本框绑定blur事件
+                var elementuser = document.getElementById("username");
+                var elementuserErr = document.getElementById("usernameError");      //拿到后面的span
+                elementuser.onblur=function () {
+                    var username = elementuser.value;   //拿到用户名
+                    username=username.trim();           //去除空格
+
+                    //判断用户名是否为空
+                    if(username===""){
+                        elementuserErr.innerText="用户名不能为空!!!"       //用户名为空的时候,在后面的span加上提示信息
+                    }else{
+                        //继续判断长度
+                        if(username.length<6||username.length>14){
+                            elementuserErr.innerText="用户名长度需要在6~14之间!!!"
+                        }else {
+                            //继续判断是否含有特殊符号
+                            var regExp=/^[A-Za-z0-9]+$/;
+                            var ok = regExp.test(username);
+                            if(!ok){
+                                elementuserErr.innerText="用户名只能由字母或数字组成!!!"
+                            }else {
+
+                            }
+                        }
+                    }
+                }
+                elementuser.onfocus=function (){
+                    //清空非法的输入
+                    if(elementuserErr.innerText!==""){
+                        elementuser.value="";
+                    }
+                    elementuserErr.innerText=""     //获取焦点后将后面span的给消除!
+                }
+
+                //获取确认密码框对象
+                var elementpwd2 = document.getElementById("password2");
+
+                //获取密码错误提示的span
+                var elementpwdErr = document.getElementById("pwdError");
+
+                //绑定blur事件
+                elementpwd2.onblur=function () {
+                    //获取密码和确认密码
+                    var elementpwd = document.getElementById("password");
+                    var pwd = elementpwd.value;
+                    var pwd2 = elementpwd2.value;
+                    if(pwd!==pwd2){
+                        elementpwdErr.innerText="密码不一致!!!"
+                    }else{
+
+                    }
+                }
+                elementpwd2.onfocus=function () {
+                    if(elementpwdErr.innerText!==""){
+                        elementpwd2.value="";
+                    }
+                    elementpwdErr.innerText="";
+                }
+                var elementemail = document.getElementById("email");
+                var elementemailErr = document.getElementById("emailError");
+                elementemail.onblur=function () {
+
+                    var email = elementemail.value;
+                    var emailRegExp=/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+                    var ok=emailRegExp.test(email);
+                    if(ok){
+
+                    }else{
+                        elementemailErr.innerText="邮箱内容不合法!!!";
+                    }
+                }
+                elementemail.onfocus=function () {
+                    if(elementemailErr.innerText!==""){
+                        elementemail.value="";
+                    }
+                    elementemailErr.innerText="";
+                }
+                //给提交按钮绑定鼠标事件
+                var elementSubmitBtn = document.getElementById("submitBtn");
+                elementSubmitBtn.onclick=function (){
+                    //不用人工操作,使用代码实现事件
+                    elementuser.focus();
+                    elementuser.blur();
+
+                    elementpwd2.focus();
+                    elementpwd2.blur();
+
+                    elementemail.focus();
+                    elementemail.blur();
+
+                    //表单所有项目合法,我们就提交
+                    if(elementuserErr.innerText===""&&elementpwdErr.innerText===""&&elementemailErr.innerText===""){
+                       var elementform = document.getElementById("userForm");
+                       elementform.submit();
+                    }
+                }
+            }
+        </script>
+        <form id="userForm" action="https://localhost:8080/suibian/save" method="get" ><br>
+            用户名<input type="text" name="username" id="username"/><span id="usernameError"></span><br>
+            密码<input type="text" name="password" id="password"/><br>
+            确认密码<input type="text" id="password2"/><span id="pwdError"></span><br>
+            邮箱<input type="text" name="email" id="email"/><span id="emailError"></span><br>
+            <input type="button" value="注册" id="submitBtn"/>
+            <input type="reset" value="重置"/>
+        </form>
+
+    </body>
+</html>
