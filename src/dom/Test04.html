@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <title>显示网页时钟</title>
+    </head>
+    <script type="text/javascript">
+        //获取系统当前时间
+        var nowTime = new Date();
+        document.write(nowTime)
+        document.write("<br>")
+
+        nowTime = nowTime.toLocaleString();
+        document.write(nowTime)
+        document.write("<br>")
+        //当出现的格式不是我们想要的时候,我们可以自定义格式
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth();
+        var day = date.getDate();
+        document.write(year+"年"+(month+1)+"月"+day+"日")
+        document.write("<br>")
+        //如何获取毫秒数(时间戳:从1970-01-01的)
+        var time = date.getTime();
+        document.write(time)
+    </script>
+    <script type="text/javascript">
+        function disPlayTime() {
+            var time = new Date();
+            document.getElementById("timeDiv").innerText=time.toLocaleString()
+        }
+        function start() {
+            v = window.setInterval("disPlayTime()",1000);
+        }
+        function stop() {
+            window.clearInterval(v)
+        }
+    </script>
+    <body>
+        <br>
+        <input type="button" value="显示系统时间" onclick="start()"/>
+        <input type="button" value="时间停止" onclick="stop()"/>
+        <div id="timeDiv"></div>
+    </body>
+</html>
